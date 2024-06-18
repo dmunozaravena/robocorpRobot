@@ -29,7 +29,7 @@ def image_filename(timestamp) -> str:
 def check_download_dir(formatted_date, logger) -> str:
     """Checks if images directory exists, if not then create it"""
     output_dir = props['output_dir']
-    img_dir = props['img_dir']    
+    img_dir = props['img_dir']
     final_directory = f'{output_dir}/{formatted_date}/{img_dir}'
     if not os.path.exists(final_directory):
         os.makedirs(final_directory)
@@ -51,11 +51,12 @@ def check_exists_output_dir(logger) -> None:
             logger.info(f"Directory '{output_dir}' already exists.")
     except Exception as e:
         logger.info(f'Failed while try to create directory {output_dir}: {e}')
-      
-  
+
+
 def download_image(url, dir, filename, retry=3, **kwargs) -> bool:
     """Download image to local path"""
     downloaded = False
+    dir = props['output_dir']
     response = requests.get(url)
     if response.status_code == 200:
         with open(f'{dir}/{filename}', 'wb') as f:
