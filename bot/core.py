@@ -180,9 +180,9 @@ class Navigate:
                 for title in props['filter_titles']:
                     xpath = props['xpath_filter_titles'].format(title=title)# NOQA
                     self.browser.click_element(xpath)
-                    time.sleep(1)
+                    time.sleep(2)
             except Exception as e:
-                logger.info(f'Error: {e}')
+                logger.info(f'Open list of topics and types: {e}')
             time.sleep(2)
             xpath = props['xpath_filters'].format(filters=filters)
             try:
@@ -190,7 +190,7 @@ class Navigate:
                 logger.info(f"Clicked on span with text: {filters}")
             except Exception as e:
                 logger.info(f"Error: {e}")
-            # time.sleep(10)
+            time.sleep(3)
             self.wait_for_page_load()
 
     def wait_for_page_load(self):
