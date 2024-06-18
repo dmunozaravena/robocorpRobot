@@ -1,6 +1,6 @@
 import time
-import os
 import json
+import os
 import logging
 from datetime import datetime
 
@@ -101,7 +101,7 @@ class Navigate:
     def get_data(self) -> list:
         """Scrape over news to collect data"""
         current_date = datetime.now()
-        self.files_dir = check_download_dir(current_date, logger)
+        # self.files_dir = check_download_dir(current_date, logger)
         parent_elements = self.browser.get_webelements(props['xpath_elements_li']) # NOQA
         result_list = []
         logger.info("Getting news data")
@@ -208,6 +208,7 @@ class Navigate:
 
 class SaveResult:
     def process_results(self, result, date_dir):
+        output_dir = props['output_dir']
         save_file_dir = f"{props['output_dir']}/{date_dir}"
         """Create a dataframe with pandas to save data into a xlsx file"""
         df = pd.DataFrame(result)
@@ -215,17 +216,16 @@ class SaveResult:
         df['timestamp'] = pd.to_datetime(df['timestamp'].astype(int), unit='ms') # NOQA
         df.columns = props['cols']
         xlsx_filename = props['xlsx_filename']
-        excel_file_path = f'{save_file_dir}/{xlsx_filename}'
+        excel_file_path = f'{output_dir}/{xlsx_filename}'
         # Write DataFrame to Excel
         df.to_excel(excel_file_path, index=False)
         try:
-            output_dir = props['output_dir']
             for root, dirs, files in os.walk(output_dir):
                 logger.info(f'Root: {root}')
                 logger.info('Directories:')
                 for dir_name in dirs:
                     logger.info(f'  {dir_name}')
-                print('Files:')
+                logger.info('Files:')
                 for file_name in files:
                     logger.info(f'  {file_name}')
                 logger.info('')
