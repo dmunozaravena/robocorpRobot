@@ -1,4 +1,5 @@
 import time
+import os
 import json
 import logging
 from datetime import datetime
@@ -19,6 +20,7 @@ from .utils import (check_download_dir,
                     count_phrase,
                     check_currency,
                     check_init_params,
+                    check_exists_output_dir,
                     )
 
 
@@ -36,6 +38,7 @@ class Core:
         save_result = SaveResult()
         valid = navigate.load_init_params()
         if valid:
+            check_exists_output_dir(logger)
             result, date_dir = navigate.perform_navigation()
             navigate.close_browser()
             if result:
@@ -215,3 +218,20 @@ class SaveResult:
         excel_file_path = f'{save_file_dir}/{xlsx_filename}'
         # Write DataFrame to Excel
         df.to_excel(excel_file_path, index=False)
+        try:
+            output_dir = props['output_dir']
+            for root, dirs, files in os.walk(output_dir):
+                logger.info(f'Root: {root}')
+                logger.info('Directories:')
+                for dir_name in dirs:
+                    logger.info(f'  {dir_name}')
+                print('Files:')
+                for file_name in files:
+                    logger.info(f'  {file_name}')
+                logger.info('')
+        except FileNotFoundError:
+            logger.info(f"The directory {output_dir} does not exist.")
+        except PermissionError:
+            logger.info(f"Permission denied to access {output_dir}.")
+        except Exception as e:
+            logger.info(f"An error occurred: {e}")
