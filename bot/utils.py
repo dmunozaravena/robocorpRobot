@@ -40,6 +40,19 @@ def check_download_dir(formatted_date, logger) -> str:
     return final_directory
 
 
+def check_exists_output_dir(logger) -> None:
+    logger.info('Creating output directory...')
+    try:
+        output_dir = props['output_dir']
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+            logger.info(f"Directory '{output_dir}' created successfully.")
+        else:
+            logger.info(f"Directory '{output_dir}' already exists.")
+    except Exception as e:
+        logger.info(f'Failed while try to create directory {output_dir}: {e}')
+      
+  
 def download_image(url, dir, filename, retry=3, **kwargs) -> bool:
     """Download image to local path"""
     downloaded = False
