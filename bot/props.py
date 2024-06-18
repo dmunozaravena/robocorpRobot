@@ -3,7 +3,7 @@ props = {
     "work_item_path": "devdata/work-items-in/work-items/work-items.json",
     "wait_timeout": 30,
     "img_dir": "img",
-    "output_dir": "/output",
+    "output_dir": "output",
     "img_filename": "image_{timestamp}.jpg",
     "search_phrase": "document.getElementsByName('q')[0].value='{search_text}';document.forms[0].submit()", # NOQA
     "xpath_elements_li": "//ps-search-filters//ul[contains(@class, 'search-results')]/li", # NOQA
